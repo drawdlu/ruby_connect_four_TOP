@@ -19,7 +19,7 @@ class Board
   end
 
   def check_win?(last_index_pair)
-    win_directions = %i[horizontal vertical]
+    win_directions = %i[horizontal vertical botRight_to_upLeft botLeft_to_upRight]
 
     win_directions.each do |orientation|
       return true if match?(last_index_pair, orientation)
@@ -32,16 +32,24 @@ class Board
     points = 0
     index_one = last_index_pair[0]
     index_two = last_index_pair[1]
-    color = @board[last_index_pair[0]][last_index_pair[1]]
+    color = @board[index_one][index_two]
 
-    until points == 4
+    until points == 4 || @board[index_one].nil?
       break unless @board[index_one][index_two] == color
 
       points += 1
-      if orientation == :horizontal
+
+      case orientation
+      when :horizontal
         index_two -= 1
-      elsif orientation == :vertical
+      when :vertical
         index_one -= 1
+      when :botRight_to_upLeft
+        index_one += 1
+        index_two += 1
+      else
+        index_one += 1
+        index_two -= 1
       end
     end
 
