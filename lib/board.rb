@@ -40,7 +40,7 @@ class Board
       points += 1
       if orientation == :horizontal
         index_two -= 1
-      elsif orientation == :Vertical
+      elsif orientation == :vertical
         index_one -= 1
       end
     end

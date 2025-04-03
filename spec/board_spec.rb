@@ -54,7 +54,7 @@ describe Board do
         end
       end
 
-      context 'when there is only 3 consecutive colors on last row mid column' do
+      context 'when there is only 3 consecutive colors on first row mid column' do
         it 'will return False' do
           sample_board[0][2..4] = Array.new(3, color)
           last_index_pair = [0, 4]
@@ -83,6 +83,26 @@ describe Board do
           connect_board.instance_variable_set(:@board, sample_board)
           result = connect_board.check_win?(last_index_pair)
           expect(result).to be_truthy
+        end
+      end
+
+      context 'when there are 4 consecutive pieces on middle row and column' do
+        it 'will return True' do
+          (1..4).each { |index| sample_board[index][4] = color }
+          last_index_pair = [4, 4]
+          connect_board.instance_variable_set(:@board, sample_board)
+          result = connect_board.check_win?(last_index_pair)
+          expect(result).to be_truthy
+        end
+      end
+
+      context 'when there are only 3 consecutive pieces on the last column' do
+        it 'will return False' do
+          (2..4).each { |index| sample_board[index][6] = color }
+          last_index_pair = [4, 6]
+          connect_board.instance_variable_set(:@board, sample_board)
+          result = connect_board.check_win?(last_index_pair)
+          expect(result).to be_falsy
         end
       end
     end
