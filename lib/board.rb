@@ -17,4 +17,21 @@ class Board
 
     @board[index_one][index_two] = color
   end
+
+  def check_win?(last_index_pair)
+    points = 0
+    index_one = last_index_pair[0]
+    index_two = last_index_pair[1]
+    color = @board[last_index_pair[0]][last_index_pair[1]]
+
+    # horizontal
+    until points == 4
+      break unless @board[index_one][index_two] == color
+
+      points += 1
+      index_two -= 1
+    end
+
+    points == 4
+  end
 end
