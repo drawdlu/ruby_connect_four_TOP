@@ -33,10 +33,20 @@ describe Board do
   end
 
   describe '#check_win?' do
-    context 'when there is four consecutive colors in a line' do
+    context 'when there is four consecutive colors on last row' do
       it 'will return True' do
         sample_board[5][0..3] = Array.new(4, color)
         last_index_pair = [5, 3]
+        connect_board.instance_variable_set(:@board, sample_board)
+        result = connect_board.check_win?(last_index_pair)
+        expect(result).to be_truthy
+      end
+    end
+
+    context 'when there is four consecutive colors on mid row and mid column' do
+      it 'will return True' do
+        sample_board[3][1..4] = Array.new(4, color)
+        last_index_pair = [3, 4]
         connect_board.instance_variable_set(:@board, sample_board)
         result = connect_board.check_win?(last_index_pair)
         expect(result).to be_truthy
