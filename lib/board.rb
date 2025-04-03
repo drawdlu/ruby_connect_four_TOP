@@ -33,26 +33,37 @@ class Board
     index_one = last_index_pair[0]
     index_two = last_index_pair[1]
     color = @board[index_one][index_two]
+    to_add = add_to_index(orientation)
+    a = to_add[0]
+    b = to_add[1]
 
     until points == 4 || @board[index_one].nil?
       break unless @board[index_one][index_two] == color
 
+      index_one += a
+      index_two += b
       points += 1
-
-      case orientation
-      when :horizontal
-        index_two -= 1
-      when :vertical
-        index_one -= 1
-      when :botRight_to_upLeft
-        index_one += 1
-        index_two += 1
-      else
-        index_one += 1
-        index_two -= 1
-      end
     end
 
     points == 4
+  end
+
+  def add_to_index(orientation)
+    a = 0
+    b = 0
+    case orientation
+    when :horizontal
+      b = -1
+    when :vertical
+      a = -1
+    when :botRight_to_upLeft
+      a = 1
+      b = 1
+    else
+      a = 1
+      b = -1
+    end
+
+    [a, b]
   end
 end
