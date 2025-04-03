@@ -134,6 +134,33 @@ describe Board do
           expect(result).to be_truthy
         end
       end
+
+      context 'when there are only 3 consecutive pieces from top left going to bottom right' do
+        it 'will return False' do
+          (4..6).each { |index| sample_board[index - 1][index] = color }
+          last_index_pair = [4, 5]
+          connect_board.instance_variable_set(:@board, sample_board)
+          result = connect_board.check_win?(last_index_pair)
+          expect(result).to be_falsy
+        end
+      end
+
+      context 'when there are only 3 consecutive pieces from top right going to bottom left' do
+        it 'will return False' do
+          index_a = 6
+          index_b = -1
+          3.times do
+            index_a -= 1
+            index_b += 1
+            sample_board[index_a][index_b] = color
+          end
+
+          last_index_pair = [index_a, index_b]
+          connect_board.instance_variable_set(:@board, sample_board)
+          result = connect_board.check_win?(last_index_pair)
+          expect(result).to be_falsy
+        end
+      end
     end
   end
 end
