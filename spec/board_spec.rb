@@ -23,7 +23,6 @@ describe Board do
         one_piece_board = Marshal.load(Marshal.dump(sample_board))
         sample_board[4][0] = color
         connect_board.instance_variable_set(:@board, one_piece_board)
-
         connect_board.place_piece_on_board(color, letter)
         board_result = connect_board.instance_variable_get(:@board)
         expect(board_result).to eq(sample_board)
@@ -35,10 +34,11 @@ describe Board do
     context 'Horizontal Checks' do
       context 'when there is four consecutive colors on last row' do
         it 'will return True' do
-          sample_board[5][0..3] = Array.new(4, color)
+          sample_board[5][1..4] = Array.new(4, color)
           last_index_pair = [5, 3]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_truthy
         end
       end
@@ -48,7 +48,8 @@ describe Board do
           sample_board[3][1..4] = Array.new(4, color)
           last_index_pair = [3, 4]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_truthy
         end
       end
@@ -58,7 +59,8 @@ describe Board do
           sample_board[0][2..4] = Array.new(3, color)
           last_index_pair = [0, 4]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_falsy
         end
       end
@@ -68,7 +70,8 @@ describe Board do
           sample_board[5][0..2] = Array.new(3, color)
           last_index_pair = [5, 2]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_falsy
         end
       end
@@ -80,7 +83,8 @@ describe Board do
           (2..5).each { |index| sample_board[index][0] = color }
           last_index_pair = [5, 0]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_truthy
         end
       end
@@ -90,7 +94,8 @@ describe Board do
           (1..4).each { |index| sample_board[index][4] = color }
           last_index_pair = [4, 4]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_truthy
         end
       end
@@ -100,7 +105,8 @@ describe Board do
           (0..2).each { |index| sample_board[index][6] = color }
           last_index_pair = [2, 6]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_falsy
         end
       end
@@ -109,18 +115,19 @@ describe Board do
     context 'Diagonal Checks' do
       context 'when there are 4 consecutive pieces from top left going to bottom right' do
         it 'will return True' do
-          (0..3).each { |index| sample_board[index][index] = color }
-          last_index_pair = [0, 0]
+          (1..4).each { |index| sample_board[index][index] = color }
+          last_index_pair = [2, 2]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_truthy
         end
       end
 
       context 'when there are 4 consecutive pieces from top right going to bottom left' do
         it 'will return True' do
-          index_a = 6
-          index_b = -1
+          index_a = 5
+          index_b = 0
           4.times do
             index_a -= 1
             index_b += 1
@@ -129,7 +136,8 @@ describe Board do
 
           last_index_pair = [index_a, index_b]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_truthy
         end
       end
@@ -139,7 +147,8 @@ describe Board do
           (4..6).each { |index| sample_board[index - 1][index] = color }
           last_index_pair = [4, 5]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_falsy
         end
       end
@@ -156,7 +165,8 @@ describe Board do
 
           last_index_pair = [index_a, index_b]
           connect_board.instance_variable_set(:@board, sample_board)
-          result = connect_board.check_win?(last_index_pair)
+          connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
           expect(result).to be_falsy
         end
       end

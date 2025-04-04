@@ -20,11 +20,11 @@ class Board
     @last_move_index = [index_one, index_two]
   end
 
-  def check_win?(last_index_pair)
+  def check_win?
     win_directions = %i[horizontal vertical botRight_to_upLeft botLeft_to_upRight]
 
     win_directions.each do |orientation|
-      return true if match?(last_index_pair, orientation)
+      return true if match?(orientation)
     end
 
     false
@@ -38,23 +38,42 @@ class Board
 
   private
 
-  def match?(last_index_pair, orientation)
+  def invert_num(num)
+    if num.negative?
+      1
+    elsif num.zero?
+      0
+    else
+      -1
+    end
+  end
+
+  def match?(orientation)
     points = 0
-    index_one = last_index_pair[0]
-    index_two = last_index_pair[1]
+    index_one = @last_move_index[0]
+    index_two = @last_move_index[1]
     color = @board[index_one][index_two]
     to_add = add_to_index(orientation)
     a = to_add[0]
     b = to_add[1]
 
-    until points == 4 || @board[index_one].nil?
-      break unless @board[index_one][index_two] == color
+    until @board[index_one].nil? || @board[index_one][index_two] != color
 
       index_one += a
       index_two += b
       points += 1
     end
 
+    index_one = @last_move_index[0]
+    index_two = @last_move_index[1]
+    until @board[index_one].nil? || @board[index_one][index_two] != color
+
+      index_one -= a
+      index_two -= b
+      points += 1
+    end
+
+    points -= 1
     points == 4
   end
 
@@ -63,9 +82,9 @@ class Board
     b = 0
     case orientation
     when :horizontal
-      b = -1
+      b = 1
     when :vertical
-      a = -1
+      a = 1
     when :botRight_to_upLeft
       a = 1
       b = 1
