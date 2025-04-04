@@ -2,7 +2,7 @@
 
 # Board for colored pieces
 class Board
-  attr_reader :board_indices, :board
+  attr_reader :board_indices, :board, :last_move_index
 
   def initialize
     @board = Array.new(6) { Array.new(7, nil) }
@@ -11,10 +11,10 @@ class Board
   end
 
   def place_piece_on_board(color, letter)
-    index_one = @board_indices[letter]
-    index_two = 5 # last index of a row
+    index_one = 5 # last index of a row
+    index_two = @board_indices[letter]
 
-    index_two -= 1 until @board[index_one][index_two].nil?
+    index_one -= 1 until @board[index_one][index_two].nil?
 
     @board[index_one][index_two] = color
     @last_move_index = [index_one, index_two]

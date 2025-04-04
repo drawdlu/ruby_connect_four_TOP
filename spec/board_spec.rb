@@ -9,7 +9,7 @@ describe Board do
   describe '#place_piece_on_board' do
     context 'when a piece is placed on an empty column' do
       it 'will go to the bottom' do
-        sample_board[0][5] = color
+        sample_board[5][0] = color
 
         connect_board.place_piece_on_board(color, letter)
         board_result = connect_board.instance_variable_get(:@board)
@@ -19,9 +19,9 @@ describe Board do
 
     context 'when a piece is placed on a column with 1 piece' do
       it 'will place the above the first piece' do
-        sample_board[0][5] = color
+        sample_board[5][0] = color
         one_piece_board = Marshal.load(Marshal.dump(sample_board))
-        sample_board[0][4] = color
+        sample_board[4][0] = color
         connect_board.instance_variable_set(:@board, one_piece_board)
 
         connect_board.place_piece_on_board(color, letter)
