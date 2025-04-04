@@ -74,4 +74,32 @@ class Board
 
     [a, b]
   end
+
+  def to_s
+    print_letters
+    print_line
+    @board.each do |line|
+      line.each do |slot|
+        if slot.nil?
+          print '| X |'
+        else
+          print "| #{slot} |"
+        end
+      end
+      puts
+      print_line
+    end
+  end
+
+  def print_letters
+    puts
+    @board_indices.each_key do |key|
+      print "  #{key}  "
+    end
+    puts
+  end
+
+  def print_line
+    puts '- - - - - - - - - - - - - - - - - -'
+  end
 end
