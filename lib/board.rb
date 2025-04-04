@@ -38,16 +38,6 @@ class Board
 
   private
 
-  def invert_num(num)
-    if num.negative?
-      1
-    elsif num.zero?
-      0
-    else
-      -1
-    end
-  end
-
   def match?(orientation)
     points = 0
     index_one = @last_move_index[0]
