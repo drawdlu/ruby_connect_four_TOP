@@ -7,6 +7,7 @@ class Board
   def initialize
     @board = Array.new(6) { Array.new(7, nil) }
     @board_indices = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6 }.freeze
+    @last_move_index = nil
   end
 
   def place_piece_on_board(color, letter)
@@ -16,6 +17,7 @@ class Board
     index_two -= 1 until @board[index_one][index_two].nil?
 
     @board[index_one][index_two] = color
+    @last_move_index = [index_one, index_two]
   end
 
   def check_win?(last_index_pair)
