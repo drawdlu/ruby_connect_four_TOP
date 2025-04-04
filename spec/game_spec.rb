@@ -10,10 +10,10 @@ describe Game do
   describe '#get_move' do
     let(:move) { 'a' }
     let(:color) { :red }
+    $stdout = File.open(File::NULL, 'w')
 
     context 'when a valid move is entered "a"' do
       before do
-        $stdout = File.open(File::NULL, 'w')
         allow(board).to receive(:space_available?)
         allow(game).to receive(:gets).and_return(move)
       end
@@ -28,12 +28,29 @@ describe Game do
       let(:empty_char) { '' }
 
       before do
-        $stdout = File.open(File::NULL, 'w')
         allow(board).to receive(:space_available?)
         allow(game).to receive(:gets).and_return(empty_char, move)
       end
 
       it 'a prompts for move again' do
+        expect(game).to receive(:print).twice
+        game.get_move
+      end
+    end
+
+    context 'when a column is full it prompts for a move again' do
+      let(:full_move) { 'b' }
+      let(:move_index) { 1 }
+      let(:full_board) { Board.new }
+
+      before do
+        allow(board).to receive(:space_available?)
+        allow(game).to receive(:gets).and_return(full_move, move)
+        (0..5).each { |index| full_board.board[index][move_index] = color }
+        game.instance_variable_set(:@board, full_board)
+      end
+
+      it 'prompts for a move again' do
         expect(game).to receive(:print).twice
         game.get_move
       end

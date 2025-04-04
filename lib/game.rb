@@ -24,6 +24,8 @@ class Game
       move_symbol = move.upcase.to_sym
 
       return move_symbol if @board.space_available?(move_symbol)
+
+      puts 'The slot you chose is already full'
     end
   end
 end
