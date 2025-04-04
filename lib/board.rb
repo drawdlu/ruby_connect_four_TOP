@@ -28,6 +28,8 @@ class Board
     false
   end
 
+  private
+
   def match?(last_index_pair, orientation)
     points = 0
     index_one = last_index_pair[0]

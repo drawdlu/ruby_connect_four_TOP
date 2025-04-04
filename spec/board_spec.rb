@@ -4,10 +4,9 @@ describe Board do
   subject(:connect_board) { described_class.new }
   let(:sample_board) { Array.new(6) { Array.new(7, nil) } }
   let(:color) { :red }
+  let(:letter) { :A }
 
   describe '#place_piece_on_board' do
-    let(:letter) { :A }
-
     context 'when a piece is placed on an empty column' do
       it 'will go to the bottom' do
         sample_board[0][5] = color
@@ -160,6 +159,15 @@ describe Board do
           result = connect_board.check_win?(last_index_pair)
           expect(result).to be_falsy
         end
+      end
+    end
+  end
+
+  describe '#space_available?' do
+    context 'when the first column chosen is empty' do
+      it 'returns true' do
+        result = connect_board.space_available?(letter)
+        expect(result).to be_truthy
       end
     end
   end
