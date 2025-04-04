@@ -170,5 +170,23 @@ describe Board do
         expect(result).to be_truthy
       end
     end
+
+    context 'when there is one remaining spec on first column' do
+      it 'returns true' do
+        (1..5).each { |index| sample_board[index][0] = color }
+        connect_board.instance_variable_set(:@board, sample_board)
+        result = connect_board.space_available?(letter)
+        expect(result).to be_truthy
+      end
+    end
+
+    context 'when there is no space remaining on first column' do
+      it 'returns false' do
+        (0..5).each { |index| sample_board[index][0] = color }
+        connect_board.instance_variable_set(:@board, sample_board)
+        result = connect_board.space_available?(letter)
+        expect(result).to be_falsy
+      end
+    end
   end
 end

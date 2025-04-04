@@ -28,6 +28,12 @@ class Board
     false
   end
 
+  def space_available?(letter)
+    index = @board_indices[letter]
+
+    board[0][index].nil?
+  end
+
   private
 
   def match?(last_index_pair, orientation)
