@@ -44,7 +44,7 @@ class Board
 
   def match?(orientation)
     points = 0
-    color = @board[index_one][index_two]
+    color = @board[@last_move_index[0]][@last_move_index[1]]
     to_add = add_to_index(orientation)
     a = to_add[0]
     b = to_add[1]
