@@ -1,6 +1,7 @@
 require_relative '../lib/board'
+require 'rspec'
 
-describe Board do
+RSpec.describe Board do
   subject(:connect_board) { described_class.new }
   let(:sample_board) { Array.new(6) { Array.new(7, nil) } }
   let(:color) { :red }
@@ -166,6 +167,36 @@ describe Board do
           last_index_pair = [index_a, index_b]
           connect_board.instance_variable_set(:@board, sample_board)
           connect_board.instance_variable_set(:@last_move_index, last_index_pair)
+          result = connect_board.check_win?
+          expect(result).to be_falsy
+        end
+      end
+    end
+
+    context 'late game checks' do
+      context 'when there is no 4 connected pieces' do
+        it 'should return False' do
+          sample_board[1] = [:red, :blue, :red, nil, nil, nil, nil]
+          sample_board[2] = %i[blue red blue red blue red blue]
+          sample_board[3] = %i[red blue red blue blue blue red]
+          sample_board[4] = %i[red blue red blue red blue red]
+          connect_board.instance_variable_set(:@board, sample_board)
+          connect_board.instance_variable_set(:@last_move_index, [1, 2])
+          result = connect_board.check_win?
+          expect(result).to be_falsy
+        end
+      end
+
+      context 'when board is almost full and no 4 connected pieces' do
+        it 'should return False' do
+          sample_board[0] = [:red, :blue, :blue, nil, nil, nil, :red]
+          sample_board[1] = [:red, :blue, :red, :blue, nil, nil, :red]
+          sample_board[2] = %i[blue red blue red red red blue]
+          sample_board[3] = %i[red blue red blue blue red blue]
+          sample_board[4] = %i[red blue red blue red blue red]
+          sample_board[5] = %i[red blue red blue blue blue red]
+          connect_board.instance_variable_set(:@board, sample_board)
+          connect_board.instance_variable_set(:@last_move_index, [1, 2])
           result = connect_board.check_win?
           expect(result).to be_falsy
         end
