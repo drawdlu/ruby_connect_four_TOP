@@ -4,9 +4,7 @@ require 'colorize'
 
 # Board for colored pieces
 class Board
-  attr_reader :board_indices
-
-  attr_accessor :board, :last_move_index
+  attr_reader :board_indices, :board, :last_move_index
 
   def initialize
     @board = Array.new(6) { Array.new(7, nil) }
@@ -61,7 +59,7 @@ class Board
     index_two = @last_move_index[1]
     points = 0
 
-    until index_two.negative? || @board[index_one].nil? || @board[index_one][index_two] != color
+    until index_one.negative? || index_two.negative? || @board[index_one].nil? || @board[index_one][index_two] != color
 
       index_one += add_a
       index_two += add_b
