@@ -38,7 +38,7 @@ class Board
 
   private
 
-  def match?(last_index_pair, orientation)
+  def match?(orientation)
     points = 0
     index_one = @last_move_index[0]
     index_two = @last_move_index[1]
