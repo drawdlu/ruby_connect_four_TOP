@@ -3,6 +3,7 @@
 require_relative 'board'
 require_relative 'players'
 
+# handles game loop
 class Game
   MAX_MOVES = 42
 
@@ -13,18 +14,20 @@ class Game
   end
 
   def start
-    won = false
     MAX_MOVES.times do
       puts @board
       move = get_move
       @board.place_piece_on_board(@active_player.values[0], move)
       if @board.check_win?
-        won = true
-        break
+        puts @board
+        announce_winner
+        return
       end
 
       @active_player = @active_player == @players.player1 ? @players.player2 : @players.player1
     end
+
+    announce_draw
   end
 
   def get_move
@@ -45,5 +48,19 @@ class Game
       puts 'The slot you chose is already full'
       puts
     end
+  end
+
+  private
+
+  def announce_winner
+    puts
+    puts "#{@active_player.keys[0]} HAS WON THE GAME!"
+    puts
+  end
+
+  def announce_draw
+    puts
+    puts 'THE GAME HAS ENDED IN A DRAW'
+    puts
   end
 end
