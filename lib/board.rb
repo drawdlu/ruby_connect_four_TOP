@@ -44,32 +44,31 @@ class Board
 
   def match?(orientation)
     points = 0
-    index_one = @last_move_index[0]
-    index_two = @last_move_index[1]
     color = @board[index_one][index_two]
     to_add = add_to_index(orientation)
     a = to_add[0]
     b = to_add[1]
 
-    until index_two.negative? || @board[index_one].nil? || @board[index_one][index_two] != color
-
-      index_one += a
-      index_two += b
-      points += 1
-    end
-
-    index_one = @last_move_index[0]
-    index_two = @last_move_index[1]
-
-    until index_two.negative? || @board[index_one].nil? || @board[index_one][index_two] != color
-
-      index_one -= a
-      index_two -= b
-      points += 1
-    end
+    points += tally_points(color, a, b)
+    points += tally_points(color, -a, -b)
 
     points -= 1
     points == 4
+  end
+
+  def tally_points(color, add_a, add_b)
+    index_one = @last_move_index[0]
+    index_two = @last_move_index[1]
+    points = 0
+
+    until index_two.negative? || @board[index_one].nil? || @board[index_one][index_two] != color
+
+      index_one += add_a
+      index_two += add_b
+      points += 1
+    end
+
+    points
   end
 
   def add_to_index(orientation)
