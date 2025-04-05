@@ -59,7 +59,10 @@ class Board
     index_two = @last_move_index[1]
     points = 0
 
-    until index_one.negative? || index_two.negative? || @board[index_one].nil? || @board[index_one][index_two] != color
+    until index_one.negative? ||
+          index_two.negative? ||
+          @board[index_one].nil? ||
+          @board[index_one][index_two] != color
 
       index_one += add_a
       index_two += add_b
