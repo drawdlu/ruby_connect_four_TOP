@@ -2,6 +2,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.3)
+    colored (1.2)
+    colorize (1.1.0)
     diff-lcs (1.6.1)
     json (2.10.2)
     language_server-protocol (3.17.0.4)
@@ -51,6 +53,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  colored (~> 1.2)
+  colorize (~> 1.1)
   rspec (~> 3.13)
   rubocop (~> 1.75)
 

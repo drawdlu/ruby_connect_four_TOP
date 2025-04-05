@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'colorize'
+
 # Board for colored pieces
 class Board
   attr_reader :board_indices, :board, :last_move_index
@@ -92,9 +94,13 @@ class Board
     @board.each do |line|
       line.each do |slot|
         if slot.nil?
-          print '| X |'
+          print '| '
+          print 'X'.green
+          print ' |'
         else
-          print "| #{slot} |"
+          print '| '
+          print '⚉'.send(slot)
+          print ' |'
         end
       end
       puts
